@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Generator: Adobe Illustrator 21.0.0, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
+<svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+	 width="400px" height="400px" viewBox="0 0 400 400" style="enable-background:new 0 0 400 400;" xml:space="preserve">
+<style type="text/css">
+	.st0{fill:#FFFFFF;}
+	.st1{fill:#A665B3;}
+</style>
+<g>
+	<path class="st0" d="M200,390C95.2,390,10,304.8,10,200S95.2,10,200,10s190,85.2,190,190S304.8,390,200,390z"/>
+	<path class="st1" d="M200,20c48.1,0,93.3,18.7,127.3,52.7S380,151.9,380,200s-18.7,93.3-52.7,127.3S248.1,380,200,380
+		s-93.3-18.7-127.3-52.7S20,248.1,20,200s18.7-93.3,52.7-127.3S151.9,20,200,20 M200,0C89.5,0,0,89.5,0,200s89.5,200,200,200
+		s200-89.5,200-200S310.5,0,200,0L200,0z"/>
+</g>
+<g>
+	<polygon class="st0" points="161.4,133.3 276.5,199.8 161.4,266.2 	"/>
+	<path class="st1" d="M171.4,150.6l85.1,49.1l-85.1,49.1V150.6 M161.4,123.3c-5.2,0-10,4.2-10,10v132.9c0,5.8,4.8,10,10,10
+		c1.7,0,3.4-0.4,5-1.4l115.1-66.4c6.7-3.8,6.7-13.5,0-17.3l-115.1-66.4C164.7,123.7,163,123.3,161.4,123.3L161.4,123.3z"/>
+</g>
+</svg>
