@@ -1,4 +1,4 @@
-import React, { Component, Fragment } from "react";
+import React, { Component } from "react";
 import Tone from "tone";
 import Track from "./Track";
 import Play from "./Play";
@@ -20,6 +20,7 @@ export default class Sequencer extends Component {
     bpm: 120,
     timer: 0,
     trackActive: false,
+
     sounds: [
       {
         name: new Tone.Player(kicktape).toMaster(),
@@ -105,7 +106,11 @@ export default class Sequencer extends Component {
     //Load Sequencer
     Tone.Transport.scheduleRepeat(time => {
       this.state.sounds.forEach((sound, index) => {
-        if (sound.values[this.state.timer] && !sound.mute) {
+        if (
+          sound.values[this.state.timer] &&
+          !sound.mute &&
+          sound.name.loaded
+        ) {
           sound.name.start();
         }
       });
@@ -118,6 +123,7 @@ export default class Sequencer extends Component {
 
   render() {
     const { sounds } = this.state;
+
     return (
       <div>
         <h1 className="main-title">Tap Music</h1>
@@ -153,7 +159,7 @@ export default class Sequencer extends Component {
             <input
               type="range"
               min="0"
-              max="150"
+              max="140"
               value={this.state.bpm}
               onChange={this.changeBpmHandler}
               onClick={e => e.preventDefault()}
