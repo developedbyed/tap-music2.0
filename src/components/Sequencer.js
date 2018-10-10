@@ -1,10 +1,19 @@
-import React, { Component } from "react";
+import React, { Component, Fragment } from "react";
 import Tone from "tone";
 import Track from "./Track";
 import Play from "./Play";
-import kicksound from "../sounds/kick-tape.wav";
-import clapsound from "../sounds/clap-tape.wav";
-import hihatsound from "../sounds/hihat-808.wav";
+import TrackSelect from "./TrackSelect";
+import kicktape from "../sounds/kick-tape.wav";
+import kick808 from "../sounds/kick-808.wav";
+import kickelectro from "../sounds/kick-electro01.wav";
+import kickclassic from "../sounds/kick-classic.wav";
+import claptape from "../sounds/clap-tape.wav";
+import clapfat from "../sounds/clap-fat.wav";
+import clapcrushed from "../sounds/clap-crushed.wav";
+import clap808 from "../sounds/clap-808.wav";
+import hihat808 from "../sounds/hihat-808.wav";
+import hihatacoustic1 from "../sounds/hihat-acoustic01.wav";
+import hihatelectro from "../sounds/hihat-electro.wav";
 
 export default class Sequencer extends Component {
   state = {
@@ -13,31 +22,34 @@ export default class Sequencer extends Component {
     trackActive: false,
     sounds: [
       {
-        name: new Tone.Player(kicksound).toMaster(),
+        name: new Tone.Player(kicktape).toMaster(),
         volume: 100,
         mute: false,
         values: [false, false, false, false, false, false, false, false],
         id: "102394",
-        track: "Kick",
-        color: "#EB5757"
+        color: "#EB5757",
+        tones: [kicktape, kick808, kickelectro, kickclassic],
+        toneName: ["Kick-Tape", "Kick-808", "Kick-Electro", "Kick-Classic"]
       },
       {
-        name: new Tone.Player(clapsound).toMaster(),
+        name: new Tone.Player(claptape).toMaster(),
         volume: 100,
         mute: false,
         values: [false, false, false, false, false, false, false, false],
         id: "10463",
-        track: "Clap",
-        color: "#6FCF97"
+        color: "#6FCF97",
+        tones: [claptape, clap808, clapfat, clapcrushed],
+        toneName: ["Clap-Tape", "Clap-808", "Clap-Fat", "Clap-Crushed"]
       },
       {
-        name: new Tone.Player(hihatsound).toMaster(),
+        name: new Tone.Player(hihat808).toMaster(),
         volume: 100,
         mute: false,
         values: [false, false, false, false, false, false, false, false],
         id: "345984",
-        track: "HiHat",
-        color: "#BB6BD9"
+        color: "#BB6BD9",
+        tones: [hihat808, hihatacoustic1, hihatelectro],
+        toneName: ["Hihat-808", "Hihat-Acoustic", "Hihat-Electro"]
       }
     ]
   };
@@ -63,6 +75,14 @@ export default class Sequencer extends Component {
       bpm: e.target.value
     });
     Tone.Transport.bpm.value = this.state.bpm;
+  };
+
+  selectTuneHandler = (tune, trackNumber) => {
+    const sounds = [...this.state.sounds];
+    sounds[trackNumber].name = new Tone.Player(tune).toMaster();
+    this.setState({
+      sounds: sounds
+    });
   };
 
   activateSongHandler = () => {
@@ -102,17 +122,23 @@ export default class Sequencer extends Component {
       <div>
         <h1 className="main-title">Tap Music</h1>
         {sounds.map((sound, index) => (
-          <Track
-            values={sound.values}
-            key={sound.id}
-            activateSound={this.activateSoundHandler}
-            trackNumber={index}
-            activeTrack={this.state.timer}
-            trackName={sound.track}
-            color={sound.color}
-            mute={sound.mute}
-            muteHandler={this.muteTrackHandler}
-          />
+          <div key={sound.id} className="full-track">
+            <Track
+              values={sound.values}
+              activateSound={this.activateSoundHandler}
+              trackNumber={index}
+              activeTrack={this.state.timer}
+              color={sound.color}
+              mute={sound.mute}
+              muteHandler={this.muteTrackHandler}
+            />
+            <TrackSelect
+              tone={sound.tones}
+              selectTune={this.selectTuneHandler}
+              trackNumber={index}
+              toneName={sound.toneName}
+            />
+          </div>
         ))}
         <div className="dashboard">
           <div className="drums">

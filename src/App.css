@@ -31,6 +31,10 @@
   color: #3e3e3e;
 }
 
+.full-track {
+  position: relative;
+}
+
 .track-container {
   display: flex;
   justify-content: space-around;
@@ -65,10 +69,23 @@
   font-size: 18px;
 }
 
+.track-select {
+  position: absolute;
+  top: 50%;
+  left: 10%;
+  transform: translate(-10%, -50%);
+  border: none;
+  padding: 5px 8px;
+  background-color: #eee;
+  border-radius: 3px;
+  overflow: hidden;
+}
+
 input[type="range"] {
   -webkit-appearance: none;
   width: 50%;
   margin: 15px 0;
+  height: 50px;
 }
 input[type="range"]:focus {
   outline: none;
@@ -115,7 +132,7 @@ input[type="range"]::-moz-range-thumb {
   cursor: pointer;
 }
 input[type="range"]::-ms-track {
-  width: 80%;
+  width: 100%;
   height: 10px;
   cursor: pointer;
   background: transparent;

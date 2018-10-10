@@ -5,7 +5,6 @@ export default class Track extends Component {
     return (
       <div className="track-container">
         <div className="track">
-          <h3>{this.props.trackName}</h3>
           <svg
             onClick={() => this.props.muteHandler(this.props.trackNumber)}
             width="70"
@@ -13,6 +12,7 @@ export default class Track extends Component {
             viewBox="0 0 70 70"
             fill="none"
             xmlns="http://www.w3.org/2000/svg"
+            style={{ margin: "0px 30px" }}
           >
             <circle
               cx="35"
