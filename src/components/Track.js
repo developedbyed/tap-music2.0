@@ -28,6 +28,7 @@ export default class Track extends Component {
         <div>
           {this.props.values.map((value, index) => (
             <svg
+              className="track-svg"
               key={index}
               width="100"
               height="100"

@@ -7,6 +7,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
+  font-size: 25px;
 }
 
 .play {
@@ -33,14 +34,16 @@
 
 .full-track {
   position: relative;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  width: 90%;
+  margin: auto;
 }
 
 .track-container {
   display: flex;
-  justify-content: space-around;
   align-items: center;
-  width: 80%;
-  margin: auto;
 }
 .track {
   display: flex;
@@ -70,15 +73,13 @@
 }
 
 .track-select {
-  position: absolute;
-  top: 50%;
-  left: 10%;
-  transform: translate(-10%, -50%);
   border: none;
   padding: 5px 8px;
   background-color: #eee;
   border-radius: 3px;
-  overflow: hidden;
+}
+.visual-synth {
+  height: 50%;
 }
 
 input[type="range"] {
@@ -166,4 +167,14 @@ input[type="range"]:focus::-ms-fill-lower {
 }
 input[type="range"]:focus::-ms-fill-upper {
   background: #b279bd;
+}
+
+@media screen and (max-width: 1424px) {
+  .track-svg {
+    height: 50px;
+    width: 50px;
+  }
+  .track svg {
+    height: 50px;
+  }
 }

@@ -20,6 +20,7 @@ export default class Sequencer extends Component {
     bpm: 120,
     timer: 0,
     trackActive: false,
+    synthActive: true,
 
     sounds: [
       {
@@ -52,7 +53,33 @@ export default class Sequencer extends Component {
         tones: [hihat808, hihatacoustic1, hihatelectro],
         toneName: ["Hihat-808", "Hihat-Acoustic", "Hihat-Electro"]
       }
-    ]
+    ],
+    synth: {
+      name: new Tone.Synth().toMaster(),
+      notes: {
+        A: "C4",
+        W: "C#4",
+        S: "D4",
+        E: "D#4",
+        D: "E4",
+        R: "E#4",
+        F: "F4",
+        T: "F#4",
+        G: "G4",
+        Y: "G#4",
+        H: "A4",
+        U: "A#4",
+        J: "B4",
+        I: "B#4",
+        Z: "C3",
+        X: "D3",
+        C: "E3",
+        V: "F3",
+        B: "G3",
+        N: "A3",
+        M: "B3"
+      }
+    }
   };
 
   activateSoundHandler = (sound, trackNumber) => {
@@ -100,6 +127,23 @@ export default class Sequencer extends Component {
     });
   };
 
+  synthPlayHandler = e => {
+    const sound = this.state.synth.notes[e.key.toUpperCase()];
+    if (this.state.synthActive) {
+      this.state.synth.name.triggerAttack(sound);
+      this.setState({
+        synthActive: !this.state.synthActive
+      });
+    }
+  };
+
+  stopSynthHandler = e => {
+    this.state.synth.name.triggerRelease();
+    this.setState({
+      synthActive: !this.state.synthActive
+    });
+  };
+
   componentDidMount() {
     //Default BPM
     Tone.Transport.bpm.value = this.state.bpm;
@@ -125,7 +169,12 @@ export default class Sequencer extends Component {
     const { sounds } = this.state;
 
     return (
-      <div>
+      <div
+        onKeyDown={this.synthPlayHandler}
+        onKeyUp={this.stopSynthHandler}
+        tabIndex="0"
+        style={{ position: "absolute", width: "100%", height: "100%" }}
+      >
         <h1 className="main-title">Tap Music</h1>
         {sounds.map((sound, index) => (
           <div key={sound.id} className="full-track">
