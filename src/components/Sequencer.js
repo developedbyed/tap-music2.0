@@ -14,6 +14,9 @@ import clap808 from "../sounds/clap-808.wav";
 import hihat808 from "../sounds/hihat-808.wav";
 import hihatacoustic1 from "../sounds/hihat-acoustic01.wav";
 import hihatelectro from "../sounds/hihat-electro.wav";
+import guitarC4 from "../samples/guitar-electric/C4.mp3";
+import pianoC4 from "../samples/piano/C4.mp3";
+import celloC4 from "../samples/cello/C4.mp3";
 
 export default class Sequencer extends Component {
   state = {
@@ -21,7 +24,6 @@ export default class Sequencer extends Component {
     timer: 0,
     trackActive: false,
     synthActive: true,
-
     sounds: [
       {
         name: new Tone.Player(kicktape).toMaster(),
@@ -55,30 +57,37 @@ export default class Sequencer extends Component {
       }
     ],
     synth: {
-      name: new Tone.Synth().toMaster(),
+      name: new Tone.Sampler(
+        {
+          C4: pianoC4
+        },
+        { release: 4 }
+      ).toMaster(),
       notes: {
-        A: "C4",
-        W: "C#4",
-        S: "D4",
-        E: "D#4",
-        D: "E4",
-        R: "E#4",
-        F: "F4",
-        T: "F#4",
-        G: "G4",
-        Y: "G#4",
-        H: "A4",
-        U: "A#4",
-        J: "B4",
-        I: "B#4",
-        Z: "C3",
-        X: "D3",
-        C: "E3",
-        V: "F3",
-        B: "G3",
-        N: "A3",
-        M: "B3"
-      }
+        A: "C3",
+        W: "C#3",
+        S: "D3",
+        E: "D#3",
+        D: "E3",
+        R: "E#3",
+        F: "F3",
+        T: "F#3",
+        G: "G3",
+        Y: "G#3",
+        H: "A3",
+        U: "A#3",
+        J: "B3",
+        I: "B#3",
+        Z: "C4",
+        X: "D4",
+        C: "E4",
+        V: "F4",
+        B: "G4",
+        N: "A4",
+        M: "B4"
+      },
+      synthSounds: [pianoC4, guitarC4, celloC4],
+      currentSynth: 0
     }
   };
 
@@ -99,6 +108,7 @@ export default class Sequencer extends Component {
   };
 
   changeBpmHandler = e => {
+    console.log(this.state.bpm);
     this.setState({
       bpm: e.target.value
     });
@@ -129,18 +139,32 @@ export default class Sequencer extends Component {
 
   synthPlayHandler = e => {
     const sound = this.state.synth.notes[e.key.toUpperCase()];
-    if (this.state.synthActive) {
+    if (e.repeat) {
+      return;
+    } else {
       this.state.synth.name.triggerAttack(sound);
-      this.setState({
-        synthActive: !this.state.synthActive
-      });
     }
   };
 
-  stopSynthHandler = e => {
+  releaseSynthHandler = () => {
     this.state.synth.name.triggerRelease();
+  };
+
+  changeSynthHandler = () => {
+    const synth = { ...this.state.synth };
+    if (synth.currentSynth < synth.synthSounds.length - 1) {
+      synth.currentSynth++;
+    } else {
+      synth.currentSynth = 0;
+    }
+    synth.name = new Tone.Sampler(
+      {
+        C4: synth.synthSounds[synth.currentSynth]
+      },
+      { release: 4 }
+    ).toMaster();
     this.setState({
-      synthActive: !this.state.synthActive
+      synth: synth
     });
   };
 
@@ -149,6 +173,8 @@ export default class Sequencer extends Component {
     Tone.Transport.bpm.value = this.state.bpm;
     //Load Sequencer
     Tone.Transport.scheduleRepeat(time => {
+      console.log(this.state.sounds[1].values);
+      console.log(this.state.timer);
       this.state.sounds.forEach((sound, index) => {
         if (
           sound.values[this.state.timer] &&
@@ -158,6 +184,7 @@ export default class Sequencer extends Component {
           sound.name.start();
         }
       });
+
       //Start Visual Sequence
       this.setState({
         timer: (this.state.timer + 1) % 8
@@ -171,7 +198,7 @@ export default class Sequencer extends Component {
     return (
       <div
         onKeyDown={this.synthPlayHandler}
-        onKeyUp={this.stopSynthHandler}
+        onKeyUp={this.releaseSynthHandler}
         tabIndex="0"
         style={{ position: "absolute", width: "100%", height: "100%" }}
       >
@@ -197,7 +224,7 @@ export default class Sequencer extends Component {
         ))}
         <div className="dashboard">
           <div className="drums">
-            <p>Drums</p>
+            <p onClick={this.changeSynthHandler}>Drums</p>
           </div>
           <Play
             activateSong={this.activateSongHandler}

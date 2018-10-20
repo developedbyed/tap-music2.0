@@ -35,7 +35,7 @@ export default class Track extends Component {
               style={{
                 fill: value ? this.props.color : "rgb(220,220,220)",
                 transform:
-                  index === this.props.activeTrack
+                  index + 1 === this.props.activeTrack
                     ? "scaleY(1.1)"
                     : "scaleX(1)",
                 strokeWidth: "3px",
